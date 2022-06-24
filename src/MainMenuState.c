@@ -1,7 +1,7 @@
 #include "MainMenuState.h"
 
 void initMainMenuState() {
-
+    
 }
 
 int mainMenuStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dtClock) {
