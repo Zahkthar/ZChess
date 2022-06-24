@@ -67,8 +67,7 @@ void gameUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dt
         case MAIN_MENU_STATE:
             updateReturnValue = mainMenuStateUpdate(window, renderer, dtClock);
             // updateReturnValue = 0 quand il n'y a pas de changements de state
-            // Pour l'instant on ne réagit pas à 1 car les fonctions ne sont pas encore implémentées
-            if(updateReturnValue == 1) { /* exitMainMenuState(); initGameState(); *gameState = GAME_STATE; */ };
+            if(updateReturnValue == 1) { exitMainMenuState(); initGameState(window, renderer); *gameState = GAME_STATE; };
             if(updateReturnValue == 2) { exitMainMenuState(); initOptionMenuState(window, renderer); *gameState = OPTION_MENU_STATE; };
             if(updateReturnValue == 3) { exitMainMenuState(); isGameRunning = SDL_FALSE; };
             break;
@@ -81,7 +80,11 @@ void gameUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dt
             break;
 
         case GAME_STATE:
-            printf("Game State\n");
+            updateReturnValue = gameStateUpdate(window, renderer, dtClock);
+            // updateReturnValue = 0 quand il n'y a pas de changements de state
+            if(updateReturnValue == 1) { exitGameState(); initMainMenuState(window, renderer); *gameState = MAIN_MENU_STATE; };
+            if(updateReturnValue == 3) { exitGameState(); isGameRunning = SDL_FALSE; };
+            break;
             break;
 
         default:
@@ -103,6 +106,7 @@ void gameRender(SDL_Window **window, SDL_Renderer **renderer, enum gameState *ga
             break;
 
         case GAME_STATE:
+            gameStateRender(window, renderer);
             break;
 
         default:

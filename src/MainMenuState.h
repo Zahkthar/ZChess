@@ -1,5 +1,5 @@
-#ifndef MAIN_MENU_STATE_HPP_INCLUDED
-#define MAIN_MENU_STATE_HPP_INCLUDED
+#ifndef MAIN_MENU_STATE_H_INCLUDED
+#define MAIN_MENU_STATE_H_INCLUDED
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
@@ -19,4 +19,4 @@ void exitMainMenuState();
 int mainMenuStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dtClock);
 void mainMenuStateRender(SDL_Window **window, SDL_Renderer **renderer);
 
-#endif // MAIN_MENU_STATE_HPP_INCLUDED
+#endif // MAIN_MENU_STATE_H_INCLUDED

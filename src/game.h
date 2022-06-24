@@ -8,6 +8,8 @@
 
 #include "MainMenuState.h"
 #include "OptionMenuState.h"
+#include "GameState.h"
+
 #include "utils.h"
 #include "config.h"
 

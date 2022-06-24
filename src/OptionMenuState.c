@@ -1,5 +1,6 @@
 #include "OptionMenuState.h"
 
+// "Privates" Structs/Unions and Enums
 typedef struct menuButton {
     SDL_Texture *texture;
     SDL_Rect rect;
@@ -33,6 +34,7 @@ int optionMenuStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTim
      * Valeurs de retour de la fonction :
      *  - 0 -> Pas de changement d'état
      *  - 1 -> Retour au MainMenuState
+     *  - 3 -> Quitter le jeu
      */
 
     SDL_Event event;
@@ -48,6 +50,10 @@ int optionMenuStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTim
                     SDL_Point buttonClickPoint = { event.button.x, event.button.y };
                     if(SDL_PointInRect(&buttonClickPoint, &returnButton.rect) == SDL_TRUE) { return 1; }
                 }
+                break;
+            
+            case SDL_KEYDOWN:
+                if(event.key.keysym.sym == SDLK_ESCAPE) { return 1; }
                 break;
 
             default:

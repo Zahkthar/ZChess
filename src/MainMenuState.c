@@ -1,5 +1,6 @@
 #include "MainMenuState.h"
 
+// "Privates" Structs/Unions and Enums
 typedef struct menuButton {
     SDL_Texture *texture;
     SDL_Rect rect;
@@ -70,6 +71,10 @@ int mainMenuStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeC
                     if(SDL_PointInRect(&buttonClickPoint, &optionButton.rect) == SDL_TRUE) { return 2; }
                     if(SDL_PointInRect(&buttonClickPoint, &quitButton.rect) == SDL_TRUE) { return 3; }
                 }
+                break;
+
+            case SDL_KEYDOWN:
+                if(event.key.keysym.sym == SDLK_ESCAPE) { return 3; }
                 break;
 
             default:
