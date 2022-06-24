@@ -30,7 +30,7 @@ void gameStart(SDL_Window **window, SDL_Renderer **renderer) {
     deltaTimeClock dtClock = { 0, 0, 0 };
     enum gameState gameState = MAIN_MENU_STATE;
 
-    initMainMenuState(); // Initialisation manuelle car c'est toujours le premier état
+    initMainMenuState(window, renderer); // Initialisation manuelle car c'est toujours le premier état
 
     // Boucle du jeu
     while(isGameRunning == SDL_TRUE) {
@@ -45,12 +45,7 @@ void gameStart(SDL_Window **window, SDL_Renderer **renderer) {
             gameUpdate(window, renderer, &dtClock, &gameState);
 
             // Draw
-            SDL_SetRenderDrawColor(*renderer, 255, 255, 255, 255);
-            SDL_RenderClear(*renderer);
-
             gameRender(window, renderer, &gameState);
-
-            SDL_RenderPresent(*renderer);
         }
     }
 
@@ -93,12 +88,18 @@ void gameUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dt
 void gameRender(SDL_Window **window, SDL_Renderer **renderer, enum gameState *gameState) {
     (void)window;
     (void)renderer;
-    
+
     switch (*gameState) {
         case MAIN_MENU_STATE:
             mainMenuStateRender(window, renderer);
             break;
         
+        case OPTION_MENU_STATE:
+            break;
+
+        case GAME_STATE:
+            break;
+
         default:
             break;
     }

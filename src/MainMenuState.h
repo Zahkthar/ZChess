@@ -8,11 +8,18 @@
 #include "config.h"
 
 // Structs/Unions and Enums
+typedef struct menuButton {
+    SDL_Texture *texture;
+    int x;
+    int y;
+    int w;
+    int h;
+} menuButton;
 
 // Extern Variables
 
 // Functions
-void initMainMenuState();
+void initMainMenuState(SDL_Window **window, SDL_Renderer **renderer);
 void exitMainMenuState();
 
 // Update & Render
