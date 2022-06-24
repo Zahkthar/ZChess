@@ -1,0 +1,10 @@
+#ifndef CONFIG_H_INCLUDED
+#define CONFIG_H_INCLUDED
+
+#define SCREEN_TITLE "ZChess"
+#define SCREEN_WIDTH 400
+#define SCREEN_HEIGHT 600
+
+#define FRAMERATE_TARGET 60
+
+#endif
