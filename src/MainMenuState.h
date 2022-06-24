@@ -10,10 +10,7 @@
 // Structs/Unions and Enums
 typedef struct menuButton {
     SDL_Texture *texture;
-    int x;
-    int y;
-    int w;
-    int h;
+    SDL_Rect rect;
 } menuButton;
 
 // Extern Variables

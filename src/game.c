@@ -67,8 +67,9 @@ void gameUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dt
         case MAIN_MENU_STATE:
             updateReturnValue = mainMenuStateUpdate(window, renderer, dtClock);
             // updateReturnValue = 0 quand il n'y a pas de changements de state
-            if(updateReturnValue == 1) { exitMainMenuState(); /* initGameState(); */ *gameState = GAME_STATE; };
-            if(updateReturnValue == 2) { exitMainMenuState(); /* initOptionMenuState(); */ *gameState = OPTION_MENU_STATE; };
+            // Pour l'instant on ne réagit pas à 1 et 2 car les fonctions ne sont pas encore implémentées
+            if(updateReturnValue == 1) { /* exitMainMenuState();initGameState(); *gameState = GAME_STATE; */ };
+            if(updateReturnValue == 2) { /* exitMainMenuState(); initOptionMenuState(); *gameState = OPTION_MENU_STATE; */ };
             if(updateReturnValue == 3) { exitMainMenuState(); isGameRunning = SDL_FALSE; };
             break;
         
