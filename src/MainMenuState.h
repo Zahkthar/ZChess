@@ -8,10 +8,6 @@
 #include "config.h"
 
 // Structs/Unions and Enums
-typedef struct menuButton {
-    SDL_Texture *texture;
-    SDL_Rect rect;
-} menuButton;
 
 // Extern Variables
 

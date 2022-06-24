@@ -7,6 +7,7 @@
 #include "SDL2/SDL_image.h"
 
 #include "MainMenuState.h"
+#include "OptionMenuState.h"
 #include "utils.h"
 #include "config.h"
 

@@ -1,7 +1,12 @@
 #include "MainMenuState.h"
 
+typedef struct menuButton {
+    SDL_Texture *texture;
+    SDL_Rect rect;
+} menuButton;
+
 // "Privates" variables
-SDL_Color backgroundColor = { 30, 74, 32, 255 };
+SDL_Color mainMenuBackgroundColor = { 30, 74, 32, 255 };
 
 menuButton playButton;
 menuButton optionButton;
@@ -78,7 +83,7 @@ int mainMenuStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeC
 void mainMenuStateRender(SDL_Window **window, SDL_Renderer **renderer) {
     (void)window;
 
-    SDL_SetRenderDrawColor(*renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+    SDL_SetRenderDrawColor(*renderer, mainMenuBackgroundColor.r, mainMenuBackgroundColor.g, mainMenuBackgroundColor.b, mainMenuBackgroundColor.a);
     SDL_RenderClear(*renderer);
 
     // Render here

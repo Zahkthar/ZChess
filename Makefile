@@ -9,8 +9,8 @@ EXEC = ZChess
 
 all : release
 
-release : main.o game.o utils.o MainMenuState.o
-	$(CXX) -L $(LIB_LOCALISATION) obj\main.o obj\game.o obj\utils.o obj\MainMenuState.o -o bin\$(EXEC) $(LDFLAGS)
+release : main.o game.o utils.o MainMenuState.o OptionMenuState.o
+	$(CXX) -L $(LIB_LOCALISATION) obj\main.o obj\game.o obj\utils.o obj\MainMenuState.o obj\OptionMenuState.o -o bin\$(EXEC) $(LDFLAGS)
 
 main.o : src\main.c
 	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c src\main.c -o obj\main.o
@@ -23,3 +23,6 @@ utils.o : src\utils.c
 
 MainMenuState.o : src\MainMenuState.c
 	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c src\MainMenuState.c -o obj\MainMenuState.o
+
+OptionMenuState.o : src\OptionMenuState.c
+	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c src\OptionMenuState.c -o obj\OptionMenuState.o
