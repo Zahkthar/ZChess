@@ -1,19 +1,32 @@
 #include "OptionMenuState.h"
 
 // "Privates" Structs/Unions and Enums
+typedef struct sprite {
+    SDL_Texture *texture;
+    SDL_Rect rect;
+} sprite;
 
 // "Privates" variables
 SDL_Color gameBackgroundColor = { 30, 74, 32, 255 };
 
+sprite chessBoard = { NULL, { 0, 0, 0, 0 } };
+
+// Functions
 void initGameState(SDL_Window **window, SDL_Renderer **renderer) {
     (void)window;
     (void)renderer;
+
+    chessBoard.texture = LoadTexture(*renderer, "res/Images/chessBoard.png");
+    SDL_QueryTexture(chessBoard.texture, NULL, NULL, &chessBoard.rect.w, &chessBoard.rect.h);
+    chessBoard.rect.y = (int)((0.5 * SCREEN_HEIGHT) - (chessBoard.rect.h / 2));
 }
 
 void exitGameState() {
-
+    SDL_DestroyTexture(chessBoard.texture);
+    chessBoard.texture = NULL;
 }
 
+// Update & Render
 int gameStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dtClock) {
     (void)window;
     (void)renderer;
@@ -52,6 +65,8 @@ void gameStateRender(SDL_Window **window, SDL_Renderer **renderer) {
     SDL_RenderClear(*renderer);
 
     // Render here
+    SDL_Rect chessBoardDestinationRect = { chessBoard.rect.x, chessBoard.rect.y, chessBoard.rect.w, chessBoard.rect.h };
+    SDL_RenderCopy(*renderer, chessBoard.texture, NULL, &chessBoardDestinationRect);
     
     SDL_RenderPresent(*renderer);
 }
