@@ -11,6 +11,11 @@ typedef enum {
     BLACK_TEAM
 } chessTeam;
 
+typedef enum {
+    WHITE_TURN,
+    BLACK_TURN
+} chessTurn;
+
 typedef struct chessPiece {
     sprite sprite;
     chessTeam team;
@@ -24,6 +29,7 @@ typedef struct boardSquare {
 } boardSquare;
 
 // "Privates" variables
+/* Configuration */
 SDL_Color gameBackgroundColor = { 30, 74, 32, 255 };
 
 sprite chessBoardSprite = { NULL, { 0, 0, 0, 0 } };
@@ -37,9 +43,12 @@ const int PIECES_COUNT = 32;
 int SQUARE_HEIGHT;
 int SQUARE_WIDTH;
 
-// Move the piece
+/* Move pieces */
 SDL_bool isASquareSelected;
 boardSquare *squareSelected;
+
+/* Player turn */
+chessTurn playerTurn;
 
 // Functions
 void initGameState(SDL_Window **window, SDL_Renderer **renderer) {
@@ -214,6 +223,8 @@ void initGameState(SDL_Window **window, SDL_Renderer **renderer) {
 
     isASquareSelected = SDL_FALSE;
     squareSelected = NULL;
+
+    playerTurn = WHITE_TURN;
 }
 
 void exitGameState() {
@@ -264,28 +275,42 @@ int gameStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock
                 indexRebuilt = (mouseClickRow * 8) + mouseClickCol; // Voir l'initialisation du plateau pour comprendre le calcul
 
                 if(indexRebuilt >= 0 && indexRebuilt <= 63) { // Le clic est bien dans la grille
-                    // Si on clique sur une pièce, enregistre son adresse
-                    // Si on clique sur une autre case alors qu'une case est séléctionnée, déplace la pièce
 
-                    if(chessBoard[indexRebuilt].piece != NULL) {
-                        isASquareSelected = SDL_TRUE;
-                        squareSelected = &chessBoard[indexRebuilt];
+                    if(isASquareSelected == SDL_FALSE) {
+                        if(chessBoard[indexRebuilt].piece != NULL) {
+                            if((playerTurn == WHITE_TURN && chessBoard[indexRebuilt].piece->team == WHITE_TEAM) || (playerTurn == BLACK_TURN && chessBoard[indexRebuilt].piece->team == BLACK_TEAM)) {
+                                squareSelected = &chessBoard[indexRebuilt];
+                                isASquareSelected = SDL_TRUE;
+                            }
+                        }
+                        break;
                     }
-                    
+
                     if(isASquareSelected == SDL_TRUE) {
-                        if((chessBoard[indexRebuilt].col != squareSelected->col) || (chessBoard[indexRebuilt].row != squareSelected->row)) {
-                            // Déplace la pièce
-                            chessBoard[indexRebuilt].piece = squareSelected->piece;
-                            squareSelected->piece = NULL;
+                        if(mouseClickCol == squareSelected->col && mouseClickRow == squareSelected->row) {
                             squareSelected = NULL;
                             isASquareSelected = SDL_FALSE;
+                        } else {
+                            // Si on clique sur un allié on remplace la sélection
+                            if(chessBoard[indexRebuilt].piece != NULL && chessBoard[indexRebuilt].piece->team == squareSelected->piece->team) {
+                                squareSelected = &chessBoard[indexRebuilt];
+                            } else {
+                                // On regarde si le déplacement est valide (a implémenter)
+                                chessBoard[indexRebuilt].piece = squareSelected->piece;
+                                squareSelected->piece = NULL;
+                                squareSelected = NULL;
+                                isASquareSelected = SDL_FALSE;
+
+                                if(playerTurn == WHITE_TURN) {
+                                    playerTurn = BLACK_TURN; 
+                                } else {
+                                    playerTurn = WHITE_TURN;
+                                }
+                            }
                         }
+                        break;
                     }
-
-                    printf("clicked on square %d-%d (index = %d)\n", mouseClickCol, mouseClickRow, indexRebuilt);
-                    printf("isASquareSelected = %d\n", isASquareSelected);
                 }
-
                 break;
 
             default:
