@@ -1,11 +1,6 @@
 #include "OptionMenuState.h"
 
 // "Privates" Structs/Unions and Enums
-typedef struct sprite {
-    SDL_Texture *texture;
-    SDL_Rect rect;
-} sprite;
-
 typedef enum {
     WHITE_TEAM,
     BLACK_TEAM

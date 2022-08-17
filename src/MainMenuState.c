@@ -1,17 +1,11 @@
 #include "MainMenuState.h"
 
-// "Privates" Structs/Unions and Enums
-typedef struct menuButton {
-    SDL_Texture *texture;
-    SDL_Rect rect;
-} menuButton;
-
 // "Privates" variables
 SDL_Color mainMenuBackgroundColor = { 30, 74, 32, 255 };
 
-menuButton playButton;
-menuButton optionButton;
-menuButton quitButton;
+sprite playButton;
+sprite optionButton;
+sprite quitButton;
 
 void initMainMenuState(SDL_Window **window, SDL_Renderer **renderer) {
     (void)window;

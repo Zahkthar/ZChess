@@ -1,15 +1,9 @@
 #include "OptionMenuState.h"
 
-// "Privates" Structs/Unions and Enums
-typedef struct menuButton {
-    SDL_Texture *texture;
-    SDL_Rect rect;
-} menuButton;
-
 // "Privates" variables
 SDL_Color optionMenuBackgroundColor = { 30, 74, 32, 255 };
 
-menuButton returnButton;
+sprite returnButton;
 
 void initOptionMenuState(SDL_Window **window, SDL_Renderer **renderer) {
     (void)window;

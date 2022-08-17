@@ -7,10 +7,6 @@
 #include "utils.h"
 #include "config.h"
 
-// Structs/Unions and Enums
-
-// Extern Variables
-
 // Functions
 void initMainMenuState(SDL_Window **window, SDL_Renderer **renderer);
 void exitMainMenuState();
