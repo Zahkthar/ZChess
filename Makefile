@@ -12,9 +12,9 @@ EXEC = ZChess
 SRC = main.c game.c utils.c MainMenuState.c OptionMenuState.c GameState.c
 OBJ = $(SRC:.c=.o)
 
-all : release
+all: ZChess
 
-release : $(OBJ)
+ZChess: $(OBJ)
 	$(CXX) -L $(LIB_LOCALISATION) $(addprefix obj\, $(OBJ)) -o bin\$(EXEC) $(LDFLAGS)
 
 %.o: src\%.c
