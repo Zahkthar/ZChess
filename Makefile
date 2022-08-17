@@ -1,31 +1,29 @@
+# Windows only Makefile :
+
 CXX = gcc
 CXXFLAGS = -Wall -Wextra -g# Mettre -O1 ou -O2 à la place de -g pour la version prod
 HEADERS_LOCALISATION = include
 
-LDFLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image # -mwindows pour supprimer l'affichage de la console
+LDFLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image# -mwindows pour supprimer l'affichage de la console
 LIB_LOCALISATION = lib
 
 EXEC = ZChess
 
+SRC = main.c game.c utils.c MainMenuState.c OptionMenuState.c GameState.c
+OBJ = $(SRC:.c=.o)
+
 all : release
 
-release : main.o game.o utils.o MainMenuState.o OptionMenuState.o GameState.o
-	$(CXX) -L $(LIB_LOCALISATION) obj\main.o obj\game.o obj\utils.o obj\MainMenuState.o obj\OptionMenuState.o obj\GameState.o -o bin\$(EXEC) $(LDFLAGS)
+release : $(OBJ)
+	$(CXX) -L $(LIB_LOCALISATION) $(addprefix obj\, $(OBJ)) -o bin\$(EXEC) $(LDFLAGS)
 
-main.o : src\main.c
-	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c src\main.c -o obj\main.o
+%.o: src\%.c
+	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c $< -o obj\$@
 
-game.o : src\game.c
-	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c src\game.c -o obj\game.o
+.PHONY: clean mrproper
 
-utils.o : src\utils.c
-	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c src\utils.c -o obj\utils.o
+clean:
+	del /f /q obj\*.o
 
-MainMenuState.o : src\MainMenuState.c
-	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c src\MainMenuState.c -o obj\MainMenuState.o
-
-OptionMenuState.o : src\OptionMenuState.c
-	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c src\OptionMenuState.c -o obj\OptionMenuState.o
-
-GameState.o : src\GameState.c
-	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c src\GameState.c -o obj\GameState.o
+mrproper: clean
+	del /f /q bin\$(EXEC).exe
