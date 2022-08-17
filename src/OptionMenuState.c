@@ -38,15 +38,14 @@ int optionMenuStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTim
      */
 
     SDL_Event event;
-    while(SDL_PollEvent(&event)) {
+    if(SDL_WaitEvent(&event) != 0) {
         switch(event.type) {
             case SDL_QUIT:
                 return 3;
                 break;
 
-            case SDL_MOUSEBUTTONUP:
-                if(event.button.button == 1) { // Si clic gauche
-                    // Si collision avec un bouton
+            case SDL_MOUSEBUTTONDOWN:
+                if(event.button.button == 1) {
                     SDL_Point buttonClickPoint = { event.button.x, event.button.y };
                     if(SDL_PointInRect(&buttonClickPoint, &returnButton.rect) == SDL_TRUE) { return 1; }
                 }

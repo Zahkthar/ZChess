@@ -1,7 +1,5 @@
 #include "game.h"
 
-SDL_bool isGameRunning = SDL_TRUE;
-
 int engineInit(SDL_Window **window, SDL_Renderer **renderer) {
     if(SDL_Init(SDL_INIT_VIDEO) != 0) {
         return -1;
@@ -33,6 +31,8 @@ void gameStart(SDL_Window **window, SDL_Renderer **renderer) {
     initMainMenuState(window, renderer); // Initialisation manuelle car c'est toujours le premier état
 
     // Boucle du jeu
+    SDL_bool isGameRunning = SDL_TRUE;
+
     while(isGameRunning == SDL_TRUE) {
         // Update deltaTime
         dtClock.nowDtMeasure = SDL_GetTicks64();
@@ -42,7 +42,7 @@ void gameStart(SDL_Window **window, SDL_Renderer **renderer) {
             dtClock.lastDtMeasure = dtClock.nowDtMeasure;
 
             // Update
-            gameUpdate(window, renderer, &dtClock, &gameState);
+            gameUpdate(window, renderer, &dtClock, &gameState, &isGameRunning);
 
             // Draw
             gameRender(window, renderer, &gameState);
@@ -53,10 +53,10 @@ void gameStart(SDL_Window **window, SDL_Renderer **renderer) {
 }
 
 void gameStop() {
-
+    
 }
 
-void gameUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dtClock, enum gameState *gameState) {
+void gameUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dtClock, enum gameState *gameState, SDL_bool *isGameRunning) {
     (void)window;
     (void)renderer;
     (void)dtClock;
@@ -66,25 +66,21 @@ void gameUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dt
     switch (*gameState) {
         case MAIN_MENU_STATE:
             updateReturnValue = mainMenuStateUpdate(window, renderer, dtClock);
-            // updateReturnValue = 0 quand il n'y a pas de changements de state
             if(updateReturnValue == 1) { exitMainMenuState(); initGameState(window, renderer); *gameState = GAME_STATE; };
             if(updateReturnValue == 2) { exitMainMenuState(); initOptionMenuState(window, renderer); *gameState = OPTION_MENU_STATE; };
-            if(updateReturnValue == 3) { exitMainMenuState(); isGameRunning = SDL_FALSE; };
+            if(updateReturnValue == 3) { exitMainMenuState(); *isGameRunning = SDL_FALSE; };
             break;
         
         case OPTION_MENU_STATE:
             updateReturnValue = optionMenuStateUpdate(window, renderer, dtClock);
-            // updateReturnValue = 0 quand il n'y a pas de changements de state
             if(updateReturnValue == 1) { exitOptionMenuState(); initMainMenuState(window, renderer); *gameState = MAIN_MENU_STATE; };
-            if(updateReturnValue == 3) { exitOptionMenuState(); isGameRunning = SDL_FALSE; };
+            if(updateReturnValue == 3) { exitOptionMenuState(); *isGameRunning = SDL_FALSE; };
             break;
 
         case GAME_STATE:
             updateReturnValue = gameStateUpdate(window, renderer, dtClock);
-            // updateReturnValue = 0 quand il n'y a pas de changements de state
             if(updateReturnValue == 1) { exitGameState(); initMainMenuState(window, renderer); *gameState = MAIN_MENU_STATE; };
-            if(updateReturnValue == 3) { exitGameState(); isGameRunning = SDL_FALSE; };
-            break;
+            if(updateReturnValue == 3) { exitGameState(); *isGameRunning = SDL_FALSE; };
             break;
 
         default:

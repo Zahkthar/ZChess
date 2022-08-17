@@ -28,7 +28,7 @@ void gameStart(SDL_Window **window, SDL_Renderer **renderer);
 void gameStop(); // free tous les truc qui ont été malloc, etc...
 
 // Update & Render
-void gameUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dtClock, enum gameState *gameState);
+void gameUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock *dtClock, enum gameState *gameState, SDL_bool *isGameRunning);
 void gameRender(SDL_Window **window, SDL_Renderer **renderer, enum gameState *gameState);
 
 #endif

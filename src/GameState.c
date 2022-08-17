@@ -34,18 +34,18 @@ SDL_Color gameBackgroundColor = { 30, 74, 32, 255 };
 
 sprite chessBoardSprite = { NULL, { 0, 0, 0, 0 } };
 
-boardSquare *chessBoard;
+boardSquare *chessBoard = NULL;
 const int SQUARES_COUNT = 64;
 
-chessPiece *chessPieces;
+chessPiece *chessPieces = NULL;
 const int PIECES_COUNT = 32;
 
 int SQUARE_HEIGHT;
 int SQUARE_WIDTH;
 
 /* Move pieces */
-SDL_bool isASquareSelected;
-boardSquare *squareSelected;
+SDL_bool isASquareSelected = SDL_FALSE;
+boardSquare *squareSelected = NULL;
 
 /* Player turn */
 chessTurn playerTurn;
@@ -221,9 +221,6 @@ void initGameState(SDL_Window **window, SDL_Renderer **renderer) {
         }
     }
 
-    isASquareSelected = SDL_FALSE;
-    squareSelected = NULL;
-
     playerTurn = WHITE_TURN;
 }
 
@@ -253,7 +250,7 @@ int gameStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock
      */
 
     SDL_Event event;
-    while(SDL_PollEvent(&event)) {
+    if(SDL_WaitEvent(&event) != 0) {
         int mouseClickCol = 0;
         int mouseClickRow = 0;
 
@@ -306,6 +303,14 @@ int gameStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock
                                 } else {
                                     playerTurn = WHITE_TURN;
                                 }
+
+                                // Corrections des positions en fonction des cases
+                                for(int i = 0; i < SQUARES_COUNT; ++i) {
+                                    if(chessBoard[i].piece != NULL) {
+                                        chessBoard[i].piece->sprite.rect.x = chessBoardSprite.rect.x + (chessBoard[i].col * SQUARE_WIDTH);
+                                        chessBoard[i].piece->sprite.rect.y = chessBoardSprite.rect.y + (chessBoard[i].row * SQUARE_HEIGHT);
+                                    }
+                                }
                             }
                         }
                         break;
@@ -315,14 +320,6 @@ int gameStateUpdate(SDL_Window **window, SDL_Renderer **renderer, deltaTimeClock
 
             default:
                 break;
-        }
-
-        
-        for(int i = 0; i < SQUARES_COUNT; ++i) {
-            if(chessBoard[i].piece != NULL) {
-                chessBoard[i].piece->sprite.rect.x = chessBoardSprite.rect.x + (chessBoard[i].col * SQUARE_WIDTH);
-                chessBoard[i].piece->sprite.rect.y = chessBoardSprite.rect.y + (chessBoard[i].row * SQUARE_HEIGHT);
-            }
         }
     }
 
