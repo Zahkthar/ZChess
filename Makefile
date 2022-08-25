@@ -20,10 +20,10 @@ ZChess: $(OBJ)
 %.o: src\%.c
 	$(CXX) $(CXXFLAGS) -I $(HEADERS_LOCALISATION) -c $< -o obj\$@
 
-.PHONY: clean mrproper
-
 clean:
 	del /f /q obj\*.o
 
 mrproper: clean
 	del /f /q bin\$(EXEC).exe
+	
+.PHONY: all ZChess clean mrproper
